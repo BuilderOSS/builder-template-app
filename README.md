@@ -1,28 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Nouns Builder Template Site
 
-## Getting Started
+> ⚠️ **Note**: This template is in active development. Full theming functionality is not yet available or fully tested. Expect breaking changes and missing features.
 
-First, run the development server:
+This is a template site for Nouns Builder DAOs, built with [Next.js](https://nextjs.org) and integrated with the Nouns Builder ecosystem.
+
+Built using packages from the [Nouns Builder](https://github.com/BuilderOSS/nouns-builder) monorepo, which provides the UI components, React hooks, utilities, SDK, and core functionality for interacting with Nouns Builder DAOs.
+
+## Quick Setup
+
+### 1. Install Dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Configuration
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Create your environment file from the sample:
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```bash
+cp sample.env .env.local
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+Edit `.env.local` with your DAO configuration:
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Required: Network configuration
+NEXT_PUBLIC_NETWORK_TYPE="mainnet"  # or "testnet"
+NEXT_PUBLIC_CHAIN_ID="8453"         # Chain ID (1=Ethereum, 8453=Base, 10=Optimism, 7777777=Zora)
+NEXT_PUBLIC_DAO_TOKEN_ADDRESS="0xe8af882f2f5c79580230710ac0e2344070099432"
+
+# Required: Core functionality
+PINATA_API_KEY=                     # Required for IPFS file uploads
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=  # Required for wallet connections
+
+# Optional: RPC providers for robust connectivity
+NEXT_PUBLIC_ALCHEMY_API_KEY=        # Optional RPC provider
+NEXT_PUBLIC_TENDERLY_RPC_KEY=       # Optional RPC provider (see Tenderly section below)
+
+# Optional: Tenderly integration (for transaction simulation)
+NEXT_PUBLIC_SKIP_TENDERLY_SIMULATION="true"  # Set to "false" to enable
+TENDERLY_ACCESS_KEY=
+TENDERLY_PROJECT=
+TENDERLY_USER=
+NEXT_PUBLIC_TENDERLY_RPC_KEY=
+```
+
+### 3. Fetch DAO Configuration
+
+Before running the development server, fetch your DAO's contract addresses and metadata:
+
+```bash
+pnpm fetch-dao
+```
+
+This script will:
+- Validate your environment variables
+- Fetch DAO contract addresses from the blockchain
+- Generate a favicon from your DAO's image
+- Create configuration files in `src/config/`
+
+### 4. Run Development Server
+
+```bash
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to see your DAO site.
+
+## Environment Variables
+
+### Required Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_NETWORK_TYPE` | Network environment | `"mainnet"` or `"testnet"` |
+| `NEXT_PUBLIC_CHAIN_ID` | Blockchain network ID | `"8453"` (Base), `"1"` (Ethereum) |
+| `NEXT_PUBLIC_DAO_TOKEN_ADDRESS` | Your DAO's token contract address | `"0xe8af882f2f5c79580230710ac0e2344070099432"` |
+| `PINATA_API_KEY` | Pinata API key | **Required** for IPFS file uploads |
+| `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` | WalletConnect project ID | **Required** for wallet connections |
+
+### Optional Variables (RPC Providers)
+
+| Variable | Description | Purpose |
+|----------|-------------|---------|
+| `NEXT_PUBLIC_ALCHEMY_API_KEY` | Alchemy API key | Optional RPC provider for robust connectivity |
+| `NEXT_PUBLIC_TENDERLY_RPC_KEY` | Tenderly RPC key | Optional RPC provider for robust connectivity |
+
+### Conditional Variables (Tenderly Simulation)
+
+| Variable | Description | Required When |
+|----------|-------------|---------------|
+| `NEXT_PUBLIC_SKIP_TENDERLY_SIMULATION` | Skip transaction simulation | Set to `"false"` to enable simulation |
+| `TENDERLY_ACCESS_KEY` | Tenderly access key | **Required** if simulation enabled |
+| `TENDERLY_PROJECT` | Tenderly project name | **Required** if simulation enabled |
+| `TENDERLY_USER` | Tenderly username | **Required** if simulation enabled |
+
+> **Note**: When `NEXT_PUBLIC_SKIP_TENDERLY_SIMULATION="false"`, all Tenderly variables become required for proposal creation. The app simulates proposal transactions using Tenderly to ensure they can be executed before posting on-chain.
+
+### Network Configuration
+
+The `NEXT_PUBLIC_NETWORK_TYPE` should match your chain:
+
+- **Mainnet chains**: Ethereum (1), Base (8453), Optimism (10), Zora (7777777)
+- **Testnet chains**: Set `NEXT_PUBLIC_NETWORK_TYPE="testnet"` for test networks
+
+## Available Scripts
+
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production (automatically runs `fetch-dao`)
+- `pnpm start` - Start production server
+- `pnpm fetch-dao` - Fetch DAO addresses and generate config
+- `pnpm lint` - Run linting and type checking
+- `pnpm type-check` - Run TypeScript type checking
 
 ## Learn More
 
