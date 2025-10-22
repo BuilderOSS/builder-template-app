@@ -58,6 +58,7 @@ const CreateProposalPage: NextPage = () => {
 
   useEffect(() => {
     if (transactions.length && !transactionType) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTransactionType(transactions[0].type as TransactionFormType)
     }
   }, [transactions, transactionType, setTransactionType])
@@ -149,7 +150,7 @@ const CreateProposalPage: NextPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Flex align="center" justify="center" style={{ minHeight: '60vh' }}>
-          Access Restricted - You don't have permission to access this page
+          {`Access Restricted - You don't have permission to access this page`}
         </Flex>
       </>
     )

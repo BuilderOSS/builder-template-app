@@ -50,7 +50,7 @@ const SettingsPage: NextPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Flex align="center" justify="center" style={{ minHeight: '60vh' }}>
-          Access Restricted - You don't have permission to access this page
+          {`Access Restricted - You don't have permission to access this page`}
         </Flex>
       </>
     )

@@ -199,13 +199,12 @@ async function fetchDaoAddresses() {
 
 import { PUBLIC_DEFAULT_CHAINS } from '@buildeross/constants/chains'
 import { AddressType, Chain, CHAIN_ID } from '@buildeross/types'
-import { RequiredDaoContractAddresses, DaoConfig } from './types'
+
+import { DaoConfig, RequiredDaoContractAddresses } from './types'
 
 const DAO_CHAIN_ID: CHAIN_ID = ${parsedChainId}
 
-const DAO_CHAIN: Chain = PUBLIC_DEFAULT_CHAINS.find(
-  (chain) => chain.id === DAO_CHAIN_ID
-)!
+const DAO_CHAIN: Chain = PUBLIC_DEFAULT_CHAINS.find((chain) => chain.id === DAO_CHAIN_ID)!
 
 const DAO_ADDRESSES: RequiredDaoContractAddresses = {
   token: '${addresses.token}' as AddressType,
