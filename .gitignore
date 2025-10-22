@@ -43,3 +43,6 @@ next-env.d.ts
 # generated config files
 /src/config/dao.json
 /src/config/dao.ts
+
+# generated icon
+/public/icon.png

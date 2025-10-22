@@ -5,6 +5,8 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        <link rel="icon" href="/icon.png" sizes="32x32" />
+        <link rel="icon" href="/icon.png" type="image/png" />
         <link
           rel="preload"
           href="/fonts/pt-root-ui_bold.woff2"

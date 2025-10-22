@@ -1,5 +1,7 @@
+import { getFetchableUrls } from '@buildeross/ipfs-service/gateway'
 import { useChainStore, useDaoStore } from '@buildeross/stores'
 import { DaoAvatar } from '@buildeross/ui/Avatar'
+import { FallbackImage } from '@buildeross/ui/FallbackImage'
 import { Box, Flex, Icon, Text } from '@buildeross/zord'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import Link from 'next/link'
@@ -46,13 +48,29 @@ export const Header: React.FC = () => {
         <Link href="/" passHref>
           <Flex align="center" gap="x3" className={logoSection}>
             {addresses.token && addresses.auction && (
-              <Box style={{ width: '40px', height: '40px' }}>
-                <DaoAvatar
-                  collectionAddress={addresses.token}
-                  size="40"
-                  auctionAddress={addresses.auction}
-                  chainId={chain.id}
-                />
+              <Box
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
+                }}
+              >
+                {daoConfig.image ? (
+                  <FallbackImage
+                    srcList={getFetchableUrls(daoConfig.image)}
+                    alt={daoConfig.name}
+                    width={40}
+                    height={40}
+                  />
+                ) : (
+                  <DaoAvatar
+                    collectionAddress={addresses.token}
+                    size="40"
+                    auctionAddress={addresses.auction}
+                    chainId={chain.id}
+                  />
+                )}
               </Box>
             )}
             <Text fontWeight="display" fontSize={20}>

@@ -1,6 +1,5 @@
 import { PUBLIC_ALL_CHAINS } from '@buildeross/constants/chains'
 import type { CHAIN_ID } from '@buildeross/types'
-import * as Sentry from '@sentry/nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import {
   BackendFailedError,
@@ -34,15 +33,12 @@ export function handleApiError(error: unknown, res: NextApiResponse): void {
   }
 
   if (error instanceof BackendFailedError) {
-    // Log backend failures to Sentry for investigation
-    Sentry.captureException(error)
     res.status(500).json({ error: error.message } as ErrorResponse)
     return
   }
 
   // Handle unexpected errors
   console.error('Unexpected API error:', error)
-  Sentry.captureException(error)
 
   // Don't expose internal error details to clients
   res.status(500).json({

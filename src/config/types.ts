@@ -12,4 +12,5 @@ export type DaoConfig = {
   chain: Chain
   addresses: RequiredDaoContractAddresses
   name: string
+  image: string
 }
