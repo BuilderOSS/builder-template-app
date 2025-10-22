@@ -26,9 +26,9 @@ async function handler(
           'Insufficient treasury funds to carry out some or all of these transactions',
       })
     }
-    return res
-      .status(500)
-      .json({ error: 'Unexpected Error: Unable to simulate these transactions' })
+    return res.status(500).json({
+      error: 'Unexpected Error: Unable to simulate these transactions',
+    })
   }
 }
 

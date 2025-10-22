@@ -85,7 +85,7 @@ async function fetchDaoAddresses() {
         functionName: 'name',
       })) as string
       console.log(`✅ Successfully fetched DAO name: ${daoName}`)
-    } catch (error) {
+    } catch {
       console.warn('⚠️  Could not fetch DAO name, using fallback "DAO"')
     }
 
