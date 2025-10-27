@@ -8,8 +8,8 @@ import {
   ProposalHeader,
   ProposalVotes,
 } from '@buildeross/proposal-ui'
-import { isChainIdSupportedByEAS } from '@buildeross/sdk/eas'
 import type { Proposal_Filter } from '@buildeross/sdk/subgraph'
+import { isChainIdSupportedByEAS } from '@buildeross/sdk/subgraph'
 import { formatAndFetchState, getProposal, SubgraphSDK } from '@buildeross/sdk/subgraph'
 import { useDaoStore } from '@buildeross/stores'
 import type { AddressType, CHAIN_ID } from '@buildeross/types'

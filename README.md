@@ -39,11 +39,19 @@ NEXT_PUBLIC_ALCHEMY_API_KEY=        # Optional RPC provider
 NEXT_PUBLIC_TENDERLY_RPC_KEY=       # Optional RPC provider (see Tenderly section below)
 
 # Optional: Tenderly integration (for transaction simulation)
-NEXT_PUBLIC_SKIP_TENDERLY_SIMULATION="true"  # Set to "false" to enable
+NEXT_PUBLIC_DISABLE_TENDERLY_SIMULATION="true"  # Set to "false" to enable
 TENDERLY_ACCESS_KEY=
 TENDERLY_PROJECT=
 TENDERLY_USER=
 NEXT_PUBLIC_TENDERLY_RPC_KEY=
+
+# Optional: AI transaction summaries, uses vercel's AI Gateway
+NEXT_PUBLIC_DISABLE_AI_SUMMARY="true"  # Set to "false" to enable
+AI_MODEL=
+AI_GATEWAY_API_KEY=
+
+# Optional: Redis for caching
+REDIS_URL=
 ```
 
 ### 3. Fetch DAO Configuration
@@ -55,6 +63,7 @@ pnpm fetch-dao
 ```
 
 This script will:
+
 - Validate your environment variables
 - Fetch DAO contract addresses from the blockchain
 - Generate a favicon from your DAO's image
@@ -72,31 +81,13 @@ Open [http://localhost:3000](http://localhost:3000) to see your DAO site.
 
 ### Required Variables
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_NETWORK_TYPE` | Network environment | `"mainnet"` or `"testnet"` |
-| `NEXT_PUBLIC_CHAIN_ID` | Blockchain network ID | `"8453"` (Base), `"1"` (Ethereum) |
-| `NEXT_PUBLIC_DAO_TOKEN_ADDRESS` | Your DAO's token contract address | `"0xe8af882f2f5c79580230710ac0e2344070099432"` |
-| `PINATA_API_KEY` | Pinata API key | **Required** for IPFS file uploads |
-| `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` | WalletConnect project ID | **Required** for wallet connections |
-
-### Optional Variables (RPC Providers)
-
-| Variable | Description | Purpose |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_ALCHEMY_API_KEY` | Alchemy API key | Optional RPC provider for robust connectivity |
-| `NEXT_PUBLIC_TENDERLY_RPC_KEY` | Tenderly RPC key | Optional RPC provider for robust connectivity |
-
-### Conditional Variables (Tenderly Simulation)
-
-| Variable | Description | Required When |
-|----------|-------------|---------------|
-| `NEXT_PUBLIC_SKIP_TENDERLY_SIMULATION` | Skip transaction simulation | Set to `"false"` to enable simulation |
-| `TENDERLY_ACCESS_KEY` | Tenderly access key | **Required** if simulation enabled |
-| `TENDERLY_PROJECT` | Tenderly project name | **Required** if simulation enabled |
-| `TENDERLY_USER` | Tenderly username | **Required** if simulation enabled |
-
-> **Note**: When `NEXT_PUBLIC_SKIP_TENDERLY_SIMULATION="false"`, all Tenderly variables become required for proposal creation. The app simulates proposal transactions using Tenderly to ensure they can be executed before posting on-chain.
+| Variable                                | Description                       | Example                                        |
+| --------------------------------------- | --------------------------------- | ---------------------------------------------- |
+| `NEXT_PUBLIC_NETWORK_TYPE`              | Network environment               | `"mainnet"` or `"testnet"`                     |
+| `NEXT_PUBLIC_CHAIN_ID`                  | Blockchain network ID             | `"8453"` (Base), `"1"` (Ethereum)              |
+| `NEXT_PUBLIC_DAO_TOKEN_ADDRESS`         | Your DAO's token contract address | `"0xe8af882f2f5c79580230710ac0e2344070099432"` |
+| `PINATA_API_KEY`                        | Pinata API key                    | **Required** for IPFS file uploads             |
+| `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` | WalletConnect project ID          | **Required** for wallet connections            |
 
 ### Network Configuration
 
@@ -104,6 +95,38 @@ The `NEXT_PUBLIC_NETWORK_TYPE` should match your chain:
 
 - **Mainnet chains**: Ethereum (1), Base (8453), Optimism (10), Zora (7777777)
 - **Testnet chains**: Set `NEXT_PUBLIC_NETWORK_TYPE="testnet"` for test networks
+
+### Optional RPC Providers
+
+| Variable                       | Description      | Purpose                                       |
+| ------------------------------ | ---------------- | --------------------------------------------- |
+| `NEXT_PUBLIC_ALCHEMY_API_KEY`  | Alchemy API key  | Optional RPC provider for robust connectivity |
+| `NEXT_PUBLIC_TENDERLY_RPC_KEY` | Tenderly RPC key | Optional RPC provider for robust connectivity |
+
+### Optional Tenderly Simulation
+
+| Variable                                  | Description                    | Required When                         |
+| ----------------------------------------- | ------------------------------ | ------------------------------------- |
+| `NEXT_PUBLIC_DISABLE_TENDERLY_SIMULATION` | Disable transaction simulation | Set to `"false"` to enable simulation |
+| `TENDERLY_ACCESS_KEY`                     | Tenderly access key            | **Required** if simulation enabled    |
+| `TENDERLY_PROJECT`                        | Tenderly project name          | **Required** if simulation enabled    |
+| `TENDERLY_USER`                           | Tenderly username              | **Required** if simulation enabled    |
+
+> **Note**: When `NEXT_PUBLIC_SKIP_TENDERLY_SIMULATION="false"`, all Tenderly variables become required for proposal creation. The app simulates proposal transactions using Tenderly to ensure they can be executed before posting on-chain.
+
+### Optional AI Transaction Summaries
+
+| Variable                         | Description                    | Required When                        |
+| -------------------------------- | ------------------------------ | ------------------------------------ |
+| `NEXT_PUBLIC_DISABLE_AI_SUMMARY` | Disable AI transaction summary | Set to `"false"` to enable summaries |
+| `AI_MODEL`                       | AI model                       | **Required** if summaries enabled    |
+| `AI_GATEWAY_API_KEY`             | AI Gateway API key             | **Required** if summaries enabled    |
+
+### Optional Redis Caching
+
+| Variable    | Description | Purpose                            |
+| ----------- | ----------- | ---------------------------------- |
+| `REDIS_URL` | Redis URL   | Cache rate limits and ai summaries |
 
 ## Available Scripts
 
